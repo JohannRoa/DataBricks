@@ -30,7 +30,7 @@
 # TODO
 
 # Change the following command to verify that a cluster is running
-FILL_IN = True
+actual = True
 print(f"{actual})
 
 # COMMAND ----------
@@ -47,8 +47,7 @@ assert actual == True, "You need to check the cluster"
 
 # MAGIC %sql
 # MAGIC -- TODO
-# MAGIC
-# MAGIC FILL_IN
+# MAGIC CREATE TABLE IF NO sample_data;
 
 # COMMAND ----------
 
@@ -69,9 +68,10 @@ assert suite
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- TODO
+# MAGIC GRANT SELECT ON TABLE sample_data TO `account users`;
+# MAGIC SHOW GRANT ON TABLE sample_data;
 # MAGIC
-# MAGIC Follow the instructions in the notebook, "2.4 - Demo - Data Governance and Security," if you need to review how this is done.
+# MAGIC --Follow the instructions in the notebook, "2.4 - Demo - Data Governance and Security," if you need to review how this is done.
 
 # COMMAND ----------
 
@@ -89,13 +89,20 @@ assert  not result.isEmpty(), "GRANT was not performed correctly. Try again."
 
 # COMMAND ----------
 
+# MAGIC %fs
+# MAGIC ls dbfs:/databricks-results/
+
+# COMMAND ----------
+
+dbutils.fs.ls("dbfs:/databricks-datasets/retail-org/")
+
+# COMMAND ----------
+
 # MAGIC %sql
-# MAGIC -- TODO
-# MAGIC
-# MAGIC COPY INTO FILL_IN
-# MAGIC   FROM 'FILL_IN'
-# MAGIC   FILEFORMAT = FILL_IN
-# MAGIC   FORMAT_OPTIONS ('FILL_IN')
+# MAGIC COPY INTO sample_data
+# MAGIC   FROM 'dbfs:/databricks-datasets/retail-org/promotions/promotions.csv'
+# MAGIC   FILEFORMAT = CSV
+# MAGIC   FORMAT_OPTIONS ('inferSchema' = 'true', 'header' = 'true')
 # MAGIC   COPY_OPTIONS ('mergeSchema' = 'true')
 
 # COMMAND ----------
@@ -125,7 +132,7 @@ DA.print_job_config_v1()
 
 # COMMAND ----------
 
-# TODO
+DA.create_job_v1()
 # Using the parameters above, configure a job with a single notebook task. The path above is the notebook you should use to configure the notebook task.
 
 # COMMAND ----------
@@ -147,6 +154,7 @@ DA.validate_job_v1_config()
 
 # TODO
 # Run the job you configured above
+DA.start_job()
 
 # COMMAND ----------
 

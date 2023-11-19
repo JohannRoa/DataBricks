@@ -184,6 +184,10 @@ MERGE INTO customers_silver_merged
 
 -- COMMAND ----------
 
+DESCRIBE EXTENDED CUSTOMERS_BRONZE
+
+-- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC
 -- MAGIC ### Conclusion
